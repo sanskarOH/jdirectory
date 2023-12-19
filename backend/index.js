@@ -1,6 +1,9 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const routes = require('./routes/routes');
+const app = express();
+app.use(express.json());
+
 
 require('dotenv').config();
 const mongoS = process.env.DATABASE_URL
@@ -10,8 +13,6 @@ const database = mongoose.connection
 
 app.use('/api',routes)
 
-const app = express();
-app.use(express.json());
 
 
 database.on('error',(error)=>{
