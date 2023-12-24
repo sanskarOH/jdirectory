@@ -4,7 +4,7 @@ const router = express.Router();
 
 module.exports = router;
 
-router.post('/post', async (req, res) => {
+router.post('/add', async (req, res) => {
     const data = new Model({
         name: req.body.name,
         phonenumber: req.body.phonenumber,
@@ -18,6 +18,17 @@ router.post('/post', async (req, res) => {
         res.status(400).json({ message: error.message });
     }
 });
+
+router.post('/get/:id',async(req,res)=>{
+    try{
+        const id = req.params.id;
+        const data = await Model.findById(id);
+        res.json(id);
+    }
+    catch(error){
+        res.status(500)
+    }
+})
 
 router.get('/getAll', async (req, res) => {
     try{
@@ -48,38 +59,14 @@ router.patch('/update/:id', async (req, res) => {
     }
 });
 
-router.delete('/delete/:id', async (req, res) => {
+router.delete('/delete/:id', async(req, res) => {
     try{
         const id = req.params.id;
         const result = await Model.findByIdAndDelete(id)
+
+        res.send(result)
     }
     catch(error){
         res.status(500).json({message : error.message})
     }
 });
-router.get('/search',async (req,res)=>{
-    try{
-        const {name , phonenumber,address} = req.query;
-
-        const query = {};
-        if(name){
-            query.name = new RegExp(name,'i')
-        }
-
-        if(phonenumber){
-            query.phonenumber = phonenumber;
-        }
-
-        if(address){
-            query.address = new RegExp(address,'i')
-        }
-
-        const searchResults = await Model.find(query);
-        res.json(searchResults)
-    }
-    catch(error){
-        res.status(400).json({message : error.message})
-    }
-
-    
-})
