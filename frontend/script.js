@@ -27,7 +27,7 @@ function sendData() {
         .then(responseData => {
             console.log('Response:', responseData);
             displayResponse(responseData);
-            fetchAndDisplayData(); // Reload data without full page refresh
+            fetchAndDisplayData(); 
         })
         .catch(error => {
             console.error('Error:', error.message);
@@ -75,7 +75,7 @@ function displayAddressList(data) {
     addressListElement.innerHTML = '';
     addressListElement.appendChild(ul);
 
-    // Add event listener to dynamically added delete buttons
+ 
     ul.addEventListener('click', function (event) {
         if (event.target.classList.contains('deleteButton')) {
             const entryId = event.target.getAttribute('data-id');
@@ -91,7 +91,7 @@ function deleteEntry(entryId) {
     })
         .then(response => {
             if (response.ok) {
-                // Entry deleted successfully, fetch and render updated data
+                
                 fetchAndDisplayData();
             } else {
                 console.error('Failed to delete entry:', response.statusText);
